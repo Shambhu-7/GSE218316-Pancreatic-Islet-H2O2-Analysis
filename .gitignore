@@ -1,0 +1,20 @@
+# RStudio and R session files
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+.DS_Store
+
+# Large sequencing data and intermediate files
+*.mtx
+*.mtx.gz
+*.h5
+*.h5ad
+*.fastq
+*.fastq.gz
+
+# Temporary and backup files
+*.Rout
+*.Rcheck/
+*~
+*.tmp
