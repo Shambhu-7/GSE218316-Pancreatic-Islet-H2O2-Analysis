@@ -1,71 +1,154 @@
-# Shared Hydrogen Peroxide Responses in Human Pancreatic Alpha and Beta Cells
+# Shared transcriptional responses to hydrogen peroxide in human pancreatic alpha and beta cells
 
-## Overview
+This repository contains the reproducible analysis and figure-generation
+code associated with the manuscript:
 
-This repository contains the computational analysis supporting
-a secondary analysis of public single-cell RNA-sequencing data
-from human pancreatic alpha and beta cells exposed to hydrogen
-peroxide (H2O2).
+**Shared transcriptional responses to hydrogen peroxide in human
+pancreatic alpha and beta cells**
 
-## Data source
+The analysis uses publicly available single-cell RNA-sequencing data
+from **GEO accession GSE218316** to examine transcriptional responses of
+human pancreatic alpha and beta cells following 24-hour hydrogen
+peroxide (H₂O₂) exposure.
 
-GEO accession: GSE218316
-https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE218316
+## Analysis overview
 
-The analysis includes 1,024 alpha cells and 594 beta cells
-from three donors, comparing 24-hour H2O2 exposure with
-untreated controls.
+The analysis includes:
 
-## Analysis methods
+-   1,024 pancreatic alpha cells
+-   594 pancreatic beta cells
+-   Three independent human donors
+-   H₂O₂-treated and untreated conditions
+-   Donor-level pseudobulk differential-expression analysis using edgeR
+-   Separate alpha- and beta-cell differential-expression analyses
+-   Joint donor-aware cell-type × condition interaction analysis
+-   Hallmark gene-set enrichment analysis
+-   Correlation-aware pathway interaction analysis
+-   Exploratory global-expression heatmap and single-cell UMAP
+    visualization
 
-- Donor-level pseudobulk aggregation (12 samples)
-- Differential expression using edgeR quasi-likelihood models
-- Donor-adjusted models: ~ Donor + Condition
-- Interaction model: ~ Donor + Celltype * Condition
-- MSigDB Hallmark enrichment using fgseaMultilevel
-- Gene ranking: sign(logFC) * sqrt(F)
-- Benjamini-Hochberg FDR correction
+The separate pseudobulk analyses identified:
 
-## Principal findings
+-   71 differentially expressed genes in alpha cells
+-   29 differentially expressed genes in beta cells
+-   9 genes shared between the two cell types
 
-- Alpha cells: 71 differentially expressed genes (FDR < 0.05)
-- Beta cells: 29 differentially expressed genes (FDR < 0.05)
-- Nine shared differentially expressed genes
-- No significant cell-type-by-treatment interactions
-- Oxidative phosphorylation: alpha NES = -1.433, FDR = 0.0170
-- Oxidative phosphorylation: beta NES = +1.876, FDR = 0.0000156
+The joint interaction model tested 10,221 genes and detected no
+significant cell-type × H₂O₂ interactions at FDR \< 0.05.
 
-Opposite enrichment directions do not establish a statistically
-significant difference between cell types.
+## Repository contents
 
-## Repository files
+### Analysis
 
-- GSE218316_Reproducible_Analysis.R: analysis script
-- GSE218316_Hallmark_GSEA_Verified.rds: frozen gene sets and GSEA reference
-- results/GSE218316_Complete_Reproducible_Results.rds: validated results
+`GSE218316_Reproducible_Analysis.R`
 
-## Software
+Main reproducible analysis script containing the pseudobulk
+differential-expression, interaction, and pathway analyses.
 
-- R
-- edgeR 4.8.2
-- fgsea 1.36.2
+### Figure generation
+
+`GSE218316_Final_Figures.R`
+
+Reproducible script used to generate the final manuscript figures:
+
+-   Figure 1 --- Shared H₂O₂-responsive gene expression
+-   Figure 2 --- Differential-expression volcano plots
+-   Figure 3 --- Hallmark transcriptional signatures
+-   Figure S1 --- DEG overlap
+-   Figure S2 --- Pseudobulk multidimensional scaling
+-   Figure S3 --- Pseudobulk count depth
+-   Figure S4 --- Average pseudobulk counts per cell
+-   Figure S5 --- Global expression heatmap of the 1,000 most variable
+    genes
+-   Figure S6 --- Single-cell UMAP
+
+### Processed data
+
+The processed inputs required to reproduce the analyses are included
+under:
+
+`data/GSE218316/`
+
+Files:
+
+-   `counts_annotated.rds`
+-   `metadata_checked.rds`
+-   `gene_annotation.rds`
+
+### Analysis results
+
+`results/GSE218316_Complete_Reproducible_Results.rds`
+
+contains the saved results from the reproducible analysis.
+
+`GSE218316_Hallmark_GSEA_Verified.rds`
+
+contains the verified Hallmark GSEA results used for figure generation.
+
+## Statistical analysis
+
+Differential expression was performed using donor-level pseudobulk
+counts and the edgeR quasi-likelihood framework.
+
+Alpha and beta cells were first analyzed separately using donor-adjusted
+models.
+
+Cell-type differences in the transcriptional response to H₂O₂ were
+evaluated using a joint model containing donor-by-cell-type and
+condition-by-cell-type terms. Statistical inference therefore accounts
+for the donor structure of the experiment rather than treating
+individual cells as independent biological replicates.
+
+Hallmark pathway enrichment was evaluated using ranked gene-level
+statistics. Correlation-aware pathway testing was additionally used when
+assessing evidence for differential pathway responses between cell
+types.
 
 ## Reproducibility
 
-The analysis script has been validated against the original
-differential-expression and Hallmark GSEA results.
+The analysis and figure-generation workflows were validated against the
+final manuscript results.
 
-The script currently requires three processed input files:
+Expected analysis checkpoints include:
 
-- data/GSE218316/counts_annotated.rds
-- data/GSE218316/metadata_checked.rds
-- data/GSE218316/gene_annotation.rds
+-   Alpha cells: 1,024
+-   Beta cells: 594
+-   Pseudobulk samples: 12
+-   Alpha genes tested: 10,036
+-   Beta genes tested: 8,493
+-   Alpha DEGs (FDR \< 0.05): 71
+-   Beta DEGs (FDR \< 0.05): 29
+-   Shared DEGs: 9
+-   Genes tested in the joint interaction analysis: 10,221
+-   Significant cell-type × condition interactions (FDR \< 0.05): 0
+-   Minimum interaction FDR: 0.5108
 
-These input files are not yet distributed in this repository.
-A tested data-access or reconstruction workflow will be added
-before the first archived release.
+The nine shared H₂O₂-responsive genes are:
+
+`TGM2`, `CRYBA2`, `PLOD2`, `ACTG1`, `CITED2`, `NFKBIA`, `SHISAL2B`,
+`S100A10`, and `LOXL4`.
+
+## Running the analysis
+
+Run the scripts from the repository root.
+
+Main analysis:
+
+`Rscript GSE218316_Reproducible_Analysis.R`
+
+Figure generation:
+
+`Rscript GSE218316_Final_Figures.R`
+
+The figure-generation script writes the final PNG figures to the
+`figures/` directory.
+
+## Data availability
+
+The original dataset is publicly available through the NCBI Gene
+Expression Omnibus under accession **GSE218316**.
 
 ## Citation
 
-Manuscript citation and Zenodo DOI will be added after publication
-and repository archiving.
+The manuscript citation and permanent Zenodo DOI will be added following
+repository archiving.
