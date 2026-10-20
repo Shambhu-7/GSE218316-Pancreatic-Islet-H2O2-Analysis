@@ -768,7 +768,7 @@ pheatmap::pheatmap(
   ),
   main = "Shared H₂O₂-responsive genes",
   filename =
-    "figures/Figure_1_Shared_H2O2_gene_expression.png",
+    "figures/Figure_2_Shared_H2O2_gene_expression.png",
   width = 9,
   height = 7.5
 )
@@ -1054,7 +1054,7 @@ p2 <- ggplot(
 
 ggsave(
   filename =
-    "figures/Figure_2_Differential_expression_volcano_plots.png",
+    "figures/Figure_1_Differential_expression_volcano_plots.png",
   plot = p2,
   width = 10,
   height = 7,
@@ -2385,11 +2385,11 @@ cat(
 )
 
 cat(
-  "Figure 1 : figures/Figure_1_Shared_H2O2_gene_expression.png\n"
+  "Figure 2 : figures/Figure_2_Shared_H2O2_gene_expression.png\n"
 )
 
 cat(
-  "Figure 2 : figures/Figure_2_Differential_expression_volcano_plots.png\n"
+  "Figure 1 : figures/Figure_1_Differential_expression_volcano_plots.png\n"
 )
 
 cat(

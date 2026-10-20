@@ -51,8 +51,8 @@ differential-expression, interaction, and pathway analyses.
 
 Reproducible script used to generate the final manuscript figures:
 
--   Figure 1 --- Shared H₂O₂-responsive gene expression
--   Figure 2 --- Differential-expression volcano plots
+-   Figure 1 --- Differential-expression volcano plots
+-   Figure 2 --- Shared H₂O₂-responsive gene expression
 -   Figure 3 --- Hallmark transcriptional signatures
 -   Figure S1 --- DEG overlap
 -   Figure S2 --- Pseudobulk multidimensional scaling
@@ -127,6 +127,50 @@ The nine shared H₂O₂-responsive genes are:
 
 `TGM2`, `CRYBA2`, `PLOD2`, `ACTG1`, `CITED2`, `NFKBIA`, `SHISAL2B`,
 `S100A10`, and `LOXL4`.
+
+
+### Within-cell-type CAMERA sensitivity analysis
+
+The final manuscript includes correlation-aware Hallmark
+sensitivity analyses performed separately in alpha and beta
+cells using donor-adjusted pseudobulk models.
+
+Script:
+
+`scripts/sensitivity/GSE218316_Hallmark_CAMERA_Sensitivity_v4.R`
+
+Run from the repository root:
+
+```bash
+Rscript scripts/sensitivity/GSE218316_Hallmark_CAMERA_Sensitivity_v4.R
+```
+
+Required R packages: Matrix, edgeR, limma, and msigdbr.
+
+The script reads the three processed RDS inputs in
+`data/GSE218316/` and
+`GSE218316_Hallmark_GSEA_Verified.rds`.
+
+The manuscript-matched supplementary results are stored in
+`results/supplementary/`:
+
+- `Table_S_Hallmark_fgsea_ALL_Combined.csv` — Table S1
+- `Table_S_CAMERA_ALL_Hallmark.csv` — Table S2
+- `Table_S_FGSEA_vs_CAMERA_Selected9.csv` — Table S3
+
+The CAMERA script regenerates these CSV results in `results/`.
+The supplied reference copies are retained in
+`results/supplementary/` for comparison.
+
+The R environment record is available at
+`reproducibility/CAMERA_Sensitivity_sessionInfo.txt`.
+
+Analysis environment: R 4.5.2, edgeR 4.8.2,
+limma 3.66.0, msigdbr 25.1.1,
+MSigDB 2025.1.Hs.
+
+These sensitivity analyses are not independent biological
+validation.
 
 ## Running the analysis
 
